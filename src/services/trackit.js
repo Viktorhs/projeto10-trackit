@@ -4,7 +4,7 @@ const BASE_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit';
 
 
 function createHeaders() {
-    const auth = localStorage.getItem("trackit");
+    const auth = JSON.parse(localStorage.getItem("trakit"))
     const config = {
       headers: {
         Authorization: `Bearer ${auth.token}`

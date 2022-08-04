@@ -1,12 +1,14 @@
 import styled from 'styled-components'
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { postLogin } from '../../services/trackit';
 import logo from '../../assets/images/logo.svg'
 import { Link, useNavigate } from 'react-router-dom';
 import { ThreeDots } from 'react-loader-spinner'
+import UserContext from '../../contexts/UserContext';
 
 export default function Login() {
     const navigate = useNavigate()
+    const {setUser} = useContext(UserContext)
 
     const [waiting, setWaiting] = useState(false)
 
@@ -35,9 +37,10 @@ export default function Login() {
         promise.then((r) => {
             localStorage.removeItem("trakit")
             let trakitInf = JSON.stringify(r.data)
+            setUser(r.data)
             localStorage.setItem("trakit", trakitInf)
-            navigate('/hoje')
-            console.log(JSON.parse(localStorage.getItem("trakit")).token)
+            //navigate('/hoje') correto
+            navigate('/habitos') //So para construir componente
         })
 
     }

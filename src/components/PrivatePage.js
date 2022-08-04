@@ -1,12 +1,14 @@
-import Header from "./Header";
 import { useNavigate } from "react-router-dom";
+import Header from "./Header/Header";
+import Menu from "./Menu/Menu";
 
 export default function PrivatePage({ children }) {
   const navigate = useNavigate();
 
-  const auth = JSON.parse(localStorage.getItem("trakit")).token;
+  const auth = JSON.parse(localStorage.getItem("trakit"));
+  
 
-  if (!auth) {
+  if (!auth || !auth.token) {
     alert('Para acessar essa pagina e necessario uma conta');
     navigate("/");
   }
@@ -16,7 +18,10 @@ export default function PrivatePage({ children }) {
       <>
         <Header />
         {children}
+        <Menu />
       </>
     );
+  }else{
+    navigate("/");
   }
 }
