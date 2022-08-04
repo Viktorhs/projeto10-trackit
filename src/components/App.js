@@ -7,6 +7,7 @@ import Today from './Today/Today';
 import UserContext from '../contexts/UserContext';
 import { useState } from 'react';
 import Habits from './Habits/Habits';
+import Historic from './Historic/Historic';
 
 export default function App() {
 
@@ -28,6 +29,11 @@ export default function App() {
                     <Route path='/habitos' element={
                         <PrivatePage>
                             <Habits/>
+                        </PrivatePage>
+                    } />
+                    <Route path='/historico' element={
+                        <PrivatePage>
+                            <Historic/>
                         </PrivatePage>
                     } />
                 </Routes>
