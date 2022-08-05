@@ -1,4 +1,9 @@
+import userEvent from "@testing-library/user-event";
+import { useContext } from "react";
 import { createGlobalStyle } from "styled-components";
+import UserContext from "../contexts/UserContext";
+
+
 
 const GlobalStyle = createGlobalStyle`
     html, body, div, span, applet, object, iframe,
@@ -52,6 +57,7 @@ const GlobalStyle = createGlobalStyle`
     body{
         /* font-family: 'Playball', cursive; */
         font-family: 'Lexend Deca', sans-serif;
+        background-color: #f2f2f2;
         
     }
 `

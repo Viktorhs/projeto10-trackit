@@ -25,7 +25,6 @@ export default function Login() {
     }
 
     function login(e) {
-
         setWaiting(true)
         e.preventDefault();
         const promise = postLogin(form)
@@ -39,46 +38,34 @@ export default function Login() {
             let trakitInf = JSON.stringify(r.data)
             setUser(r.data)
             localStorage.setItem("trakit", trakitInf)
-            //navigate('/hoje') correto
-            navigate('/habitos') //So para construir componente
+            navigate('/hoje')
         })
 
     }
-    if (!waiting) {
         return (
             <Container>
                 <img src={logo} alt='logo' />
-                <Form onSubmit={login}>
-                    <input type='email' name='email' placeholder="email" onChange={handleForm} value={form.description} required />
-                    <input type="password" name="password" placeholder="senha" onChange={handleForm} value={form.description} required />
-                    <Button type="submit" brightness='90%' px='1px'>Entrar</Button>
+                <Form onSubmit={login} active={waiting}>
+                    <input type='email' name='email' placeholder="email" onChange={handleForm} value={form.description} required  disabled={waiting}/>
+                    <input type="password" name="password" placeholder="senha" onChange={handleForm} value={form.description} required  disabled={waiting}/>
+                    <Button type="submit" active={waiting} disabled={waiting}>
+                        {waiting ? <ThreeDots color="#FFFFFF" height={13} width={51} /> : 'Entrar'}
+                    </Button>
                 </Form>
                 <StyledLink to='/cadastro'>Não tem uma conta? Cadastre-se!</StyledLink>
             </Container>
         )
-    } else if (waiting) {
-        return (
-            <Container>
-                <img src={logo} alt='logo' />
-                <Form onSubmit={login} opacity='0.5'>
-                    <input type='email' name='email' placeholder="email" onChange={handleForm} value={form.description} disabled />
-                    <input type="password" name="password" placeholder="senha" onChange={handleForm} value={form.description} disabled />
-                    <Button type="submit" opacity='0.7' disabled > <ThreeDots color="#FFFFFF" height={13} width={51} /></Button>
-
-                </Form>
-                <StyledLink to='/cadastro'>Não tem uma conta? Cadastre-se!</StyledLink>
-            </Container>
-        )
-    }
 
 }
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100vw;
+    height: 100vh;
+    background-color: #FFFFFF;
     padding-top: 68px;
 
     img{
@@ -106,7 +93,7 @@ const Form = styled.form`
         border: 1px solid #D5D5D5;
         border-radius: 5px;
         margin-bottom: 6px;
-        opacity: ${props => props.opacity};   
+        opacity: ${(props) => typeof props.active !== 'boolean' || props.active ? '0.5' : ""};   
         padding: 0 11px;
     }
     ::placeholder{
@@ -134,11 +121,11 @@ const Button = styled.button`
         text-align: center;
         color: #FFFFFF;
 
-        opacity: ${props => props.opacity};
+        opacity: ${(props) => typeof props.active !== 'boolean' || props.active ? '0.7' : ""};
 
         &:active{
-        filter: brightness(${props => props.brightness});
-        transform: translateY(${props => props.px});
+        filter: brightness(${(props) => typeof props.active !== 'boolean' || props.active ? '' : '90%'});
+        transform: translateY(${(props) => typeof props.active !== 'boolean' || props.active ? '' : '1px'});
     }
 `
 const StyledLink = styled(Link)`

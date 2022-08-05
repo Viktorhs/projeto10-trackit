@@ -38,37 +38,21 @@ export default function Registration() {
       navigate('/')
     })
   }
-
-  if (!WaitRegister) {
     return (
       <Container>
         <img src={logo} alt='logo' />
-        <Form onSubmit={register}>
-          <input type='email' name='email' placeholder="email" onChange={handleForm} value={form.description} required />
-          <input type="password" name="password" placeholder="senha" onChange={handleForm} value={form.description} required />
-          <input type="text" name="name" placeholder="nome" onChange={handleForm} value={form.description} required />
-          <input type='url' name='image' placeholder="foto" onChange={handleForm} value={form.description} required />
-          <Button type="submit">Cadastrar</Button>
+        <Form onSubmit={register} active={WaitRegister}>
+          <input type='email' name='email' placeholder="email" onChange={handleForm} value={form.description} required disabled={WaitRegister}/>
+          <input type="password" name="password" placeholder="senha" onChange={handleForm} value={form.description} required disabled={WaitRegister}/>
+          <input type="text" name="name" placeholder="nome" onChange={handleForm} value={form.description} required disabled={WaitRegister}/>
+          <input type='url' name='image' placeholder="foto" onChange={handleForm} value={form.description} required disabled={WaitRegister}/>
+          <Button type="submit" disabled={WaitRegister} active={WaitRegister}>
+            {WaitRegister ?  <ThreeDots color="#FFFFFF" height={13} width={51} /> : "Cadastrar"}
+          </Button>
         </Form>
         <StyledLink to='/'>Já tem uma conta? Faça login!</StyledLink>
       </Container>
     )
-  } else if (WaitRegister) {
-    return (
-      <Container>
-        <img src={logo} alt='logo' />
-        <Form onSubmit={register} opacity='0.5'>
-          <input type='email' name='email' placeholder="email" onChange={handleForm} value={form.description} disabled />
-          <input type="password" name="password" placeholder="senha" onChange={handleForm} value={form.description} disabled />
-          <input type="text" name="name" placeholder="nome" onChange={handleForm} value={form.description} disabled />
-          <input type='url' name='image' placeholder="foto" onChange={handleForm} value={form.description} disabled />
-          <Button type="submit" opacity='0.7' disabled > <ThreeDots color="#FFFFFF" height={13} width={51} /></Button>
-        </Form>
-        <StyledLink to='/'>Já tem uma conta? Faça login!</StyledLink>
-      </Container>
-    )
-  }
-
 
 }
 

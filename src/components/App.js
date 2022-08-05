@@ -12,14 +12,21 @@ import Historic from './Historic/Historic';
 export default function App() {
 
     const [user, setUser] = useState({})
+    const [att, setAtt] = useState(false)
     const [userHabits, setUserHabits] = useState({})
+    const [formHabits, setFormHabits] = useState({
+        name: '',
+        days: '',
+    });
+    const [selectedID, setSelectedID] = useState([])
+
 
     return (
-        <UserContext.Provider value={{user, setUser, userHabits, setUserHabits}}>
+        <UserContext.Provider value={{user, setUser, userHabits, setUserHabits, setFormHabits, formHabits, att, setAtt, selectedID, setSelectedID}}>
             <BrowserRouter>
-                <GlobalStyle />
+                <GlobalStyle/>
                 <Routes>
-                    <Route path='/' element={<Login />} />
+                    <Route path='/' element={<Login/>} />
                     <Route path='/cadastro' element={<Registration />} />
                     <Route path='/hoje' element={
                         <PrivatePage>
