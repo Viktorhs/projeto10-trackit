@@ -49,7 +49,7 @@ function getListHabits(){
     return promise;
 }
 
-function getSerchHabits(){
+function getTodayHabits(){
     const config = createHeaders();
     const promise = axios.get(`${BASE_URL}/habits/today`, config);
     return promise;
@@ -74,7 +74,7 @@ export {
     postMarkHabit, 
     postMarkOffHabit,
     getListHabits,
-    getSerchHabits,
+    getTodayHabits,
     getHistoricHAbits,
     deleteHabit,
 };

@@ -50,26 +50,19 @@ function HabitCard({children, days, id, habits, setHabits}){
 }
 
 export default function ListHabits({habits, setHabits}){
-    const {userHabits} = useContext(UserContext)
     const organize = habits.sort((a, b) => b.id - a.id)
 
-    if(userHabits.length === 0){
-        return(
-            <Container>
-                <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
-            </Container>
-        )
-    }else{
-        return(
-            <Container>
-                {organize.map((item, index) => <HabitCard key={index} 
-                days={item.days} 
-                id={item.id}
-                habits={habits}
-                setHabits={setHabits}>{item.name}</HabitCard>)}
-            </Container>
-        )
-    }
+
+    return(
+        <Container>
+            {organize.map((item, index) => <HabitCard key={index} 
+            days={item.days} 
+            id={item.id}
+            habits={habits}
+            setHabits={setHabits}>{item.name}</HabitCard>)}
+        </Container>
+    )
+    
 }
 
 const Container = styled.div`

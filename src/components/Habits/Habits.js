@@ -6,9 +6,10 @@ import CreateHabit from "./CreateHabit";
 import ListHabits from "./ListHabits";
 
 export default function Habits(){
-    const {setUserHabits, att} = useContext(UserContext)
+    const {att} = useContext(UserContext)
     const [create, setCreate] = useState(false)
     const [habits,setHabits] = useState([])
+    const [text, setText] = useState()
 
 
     useEffect(() =>{
@@ -18,7 +19,8 @@ export default function Habits(){
         })
         promisse.then((r) => {
             setHabits(r.data)
-            setUserHabits(r.data)
+            console.log(r.data)
+            setText('Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!')
         })
     }, [att])
 
@@ -30,7 +32,11 @@ export default function Habits(){
             </Wrapper>
             {create ? <CreateHabit 
             setCreate={setCreate}/> : <></>}
-            <ListHabits habits={habits} setHabits={setHabits}/>
+            {habits.length < 1 ? 
+            <p>{text}</p> 
+            : 
+            <ListHabits habits={habits} setHabits={setHabits}/>}
+            
         </Container>
     )
 
@@ -41,6 +47,13 @@ const Container = styled.div`
     margin-top: 71px;
     margin-bottom: 70px;
     padding: 0 18px;
+
+    p{
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 22px;
+        color: #666666;
+    }
 
 `
 
