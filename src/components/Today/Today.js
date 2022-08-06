@@ -23,6 +23,7 @@ export default function Today() {
     const WeekDays = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado', 'Domingo']
     const day = dayjs().format('DD/MM')
     const WeekDay = (dayjs().day())
+    const [define, setDefine] = useState(true)
 
     function percentComplete(habits) {
         if (habits.length > 0) {
@@ -35,20 +36,23 @@ export default function Today() {
                 complete: complete,
                 percent: percent
             })
+            setDefine(false)
         } else {
             setUserHabits({
                 ...userHabits,
                 percent: 0
             })
+            setDefine(true)
         }
     }
 
+    
 
     return (
         <Container>
             <Wrapper active={userHabits.percent > 0}>
                 <h4>{WeekDays[WeekDay - 1]}, {day}</h4>
-                {(userHabits.percent < 1) ? <p>Nenhum hábito concluído ainda</p> : <p>{userHabits.percent}% dos hábitos concluídos</p>}
+                {(userHabits.percent === undefined || userHabits.percent < 1) ? <p>Nenhum hábito concluído ainda</p> : <p>{userHabits.percent}% dos hábitos concluídos</p>}
             </Wrapper>
 
             {todayHabits.map((item) => <CardHabits
