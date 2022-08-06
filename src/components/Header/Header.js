@@ -1,13 +1,11 @@
-import { useContext } from "react"
 import styled from "styled-components"
-import UserContext from "../../contexts/UserContext"
 
 export default function Header() {
-    const { user } = useContext(UserContext)
+    const auth = JSON.parse(localStorage.getItem("trakit"))
     return (
         <HeaderBar>
             <h1>TrakIt</h1>
-            <img src={user.image} alt="user-profile"/>
+            <img src={auth.image} alt="user-profile"/>
         </HeaderBar>
     )
 }
