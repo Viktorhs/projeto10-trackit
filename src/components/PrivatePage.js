@@ -6,11 +6,14 @@ export default function PrivatePage({ children }) {
   const navigate = useNavigate();
 
   const auth = JSON.parse(localStorage.getItem("trakit"));
-  
+
+  function volta(){
+    navigate('/')
+  }
 
   if (!auth || !auth.token) {
     alert('Para acessar essa pagina e necessario uma conta');
-    navigate("/");
+    volta()
   }
 
   if (auth) {
@@ -21,7 +24,7 @@ export default function PrivatePage({ children }) {
         <Menu />
       </>
     );
-  }else{
-    navigate("/");
+  } else {
+    volta();
   }
 }

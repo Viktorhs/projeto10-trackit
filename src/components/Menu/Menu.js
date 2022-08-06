@@ -5,18 +5,18 @@ import {
     buildStyles
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 
 export default function Menu() {
-    let total = 10;
-    let completos = 7;
-    let percentage = (completos * 100)/total
+    const { userHabits } = useContext(UserContext)
 
     return (
         <FooterMenu>
             <MenuLink to='/habitos'>Hábitos</MenuLink>
-            <MenuLink to='/hoje' style = { {  width : 91 ,  height : 91, marginBottom : 47} }><CircularProgressbar
-                value={percentage} text={"Hoje"}
+            <MenuLink to='/hoje' style={{ width: 91, height: 91, marginBottom: 47 }}><CircularProgressbar
+                value={userHabits.percent} text={"Hoje"}
                 background
                 backgroundPadding={6}
                 styles={buildStyles({
@@ -26,7 +26,7 @@ export default function Menu() {
                     textColor: "#ffffff",
                     pathColor: "#ffffff",
                     trailColor: "transparent"
-                  })}
+                })}
             /></MenuLink>
             <MenuLink to='/historico'>Histórico</MenuLink>
         </FooterMenu>

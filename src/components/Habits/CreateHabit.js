@@ -5,26 +5,26 @@ import { ThreeDots } from 'react-loader-spinner'
 import { postHabit } from "../../services/trackit";
 import UserContext from "../../contexts/UserContext";
 
-function DayButton({children, id, setSelectedID, selectedID, waiting}){
-    
+function DayButton({ children, id, setSelectedID, selectedID, waiting }) {
+
     const [selected, setSelected] = useState(false)
-    useEffect(() =>{
+    useEffect(() => {
         const test = selectedID.filter(a => a === id)
-        if(test[0] === id){
+        if (test[0] === id) {
             setSelected(true)
-        }else{
+        } else {
             setSelected(false)
         }
     }, [])
 
-    function selectedDay(day){
-        if(selected){
+    function selectedDay(day) {
+        if (selected) {
             let removeID = selectedID.filter(a => a !== id)
             setSelectedID([...removeID])
             setSelected(false)
-            
+
         }
-        if(!selected){
+        if (!selected) {
             setSelectedID([
                 ...selectedID,
                 id
@@ -33,23 +33,23 @@ function DayButton({children, id, setSelectedID, selectedID, waiting}){
         }
     }
 
-    return(
-        <Button type="button" 
-        active={selected} 
-        onClick={()=> selectedDay(id)}
-        disabled={waiting}>{children}</Button>
+    return (
+        <Button type="button"
+            active={selected}
+            onClick={() => selectedDay(id)}
+            disabled={waiting}>{children}</Button>
     )
 }
 
-export default function CreateHabit({setCreate}){
-    const {formHabits, setFormHabits, att, setAtt, selectedID, setSelectedID} = useContext(UserContext)
+export default function CreateHabit({ setCreate }) {
+    const { formHabits, setFormHabits, att, setAtt, selectedID, setSelectedID } = useContext(UserContext)
     const [waiting, setWaiting] = useState(false)
-    const days = ['D', 'S', 'T', 'Q', 'Q', 'S', 'D']
+    const days = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 
-    function attLista(){
-        if(att === false){
+    function attLista() {
+        if (att === false) {
             setAtt(true)
-        }else{
+        } else {
             setAtt(false)
         }
     }
@@ -63,21 +63,21 @@ export default function CreateHabit({setCreate}){
         console.log(selectedID)
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         const organize = selectedID.sort((a, b) => a - b)
         setFormHabits({
             ...formHabits,
             days: organize
-          })
+        })
     }, [selectedID])
 
 
     function postCreateHabit(e) {
         e.preventDefault();
         const days = formHabits.days
-        if(days.length < 1){
+        if (days.length < 1) {
             alert('selecione um dia')
-            
+
             return
         }
         setWaiting(true)
@@ -91,8 +91,8 @@ export default function CreateHabit({setCreate}){
             console.log(r.data)
             setFormHabits({
                 ...formHabits,
-                name:'',
-                days:[]
+                name: '',
+                days: []
             })
             setSelectedID([])
             attLista()
@@ -102,17 +102,17 @@ export default function CreateHabit({setCreate}){
 
     }
 
-    return(
+    return (
         <>
             <Form active={waiting} onSubmit={postCreateHabit}>
-                <input type='text' name='name' placeholder="nome do hábito" onChange={handleForm} value={formHabits.name} required disabled={waiting}/>
+                <input type='text' name='name' placeholder="nome do hábito" onChange={handleForm} value={formHabits.name} required disabled={waiting} />
                 <Grid>
-                    {days.map((item, index) => <DayButton 
-                    waiting={waiting} 
-                    key={index} 
-                    id={index}
-                    selectedID={selectedID}
-                    setSelectedID={setSelectedID}   >{item}</DayButton>)}
+                    {days.map((item, index) => <DayButton
+                        waiting={waiting}
+                        key={index}
+                        id={index}
+                        selectedID={selectedID}
+                        setSelectedID={setSelectedID}   >{item}</DayButton>)}
                 </Grid>
                 <GridButton>
                     <Cancel onClick={() => setCreate(false)}>Cancelar</Cancel>
@@ -120,7 +120,7 @@ export default function CreateHabit({setCreate}){
                         {waiting ? <ThreeDots color="#FFFFFF" height={11} width={43} /> : 'Salvar'}
                     </Save>
                 </GridButton>
-            </Form> 
+            </Form>
         </>
     )
 }

@@ -5,64 +5,64 @@ import trash from "../../images/trash.svg"
 import { deleteHabit } from "../../services/trackit"
 import Button from "./Button"
 
-function DayButton({id, days, children}){
+function DayButton({ id, days, children }) {
     const day = days.filter((a) => a === id)
-    if(day[0] === id){
+    if (day[0] === id) {
         return <Button active={true}>{children}</Button>
-    }else{
+    } else {
         return <Button active={false}>{children}</Button>
     }
-    
+
 }
 
-function HabitCard({children, days, id, habits, setHabits}){
-    const defaultDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'D']
-    const {setAtt, att} = useContext(UserContext);
+function HabitCard({ children, days, id, habits, setHabits }) {
+    const defaultDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
+    const { setAtt, att } = useContext(UserContext);
 
-    function attLista(){
-        if(att === false){
+    function attLista() {
+        if (att === false) {
             setAtt(true)
-        }else{
+        } else {
             setAtt(false)
         }
     }
 
-    function trashHabit(id){
-        if(window.confirm("Deseja apagar o habito?")){
+    function trashHabit(id) {
+        if (window.confirm("Deseja apagar o habito?")) {
             const promise = deleteHabit(id);
-            promise.catch(()=>{
+            promise.catch(() => {
                 alert('Falha em apagar o habito, por favor tente mais tarde')
             })
-            promise.then(()=>{
+            promise.then(() => {
                 attLista()
             })
 
         }
     }
 
-    return(
+    return (
         <Card>
             <p>{children}</p>
             <div>{defaultDays.map((item, index) => <DayButton key={index} id={index} days={days}>{item}</DayButton>)}</div>
-            <img src={trash} alt='trash-button' onClick={()=> trashHabit(id)}/>
+            <img src={trash} alt='trash-button' onClick={() => trashHabit(id)} />
         </Card>
     )
 }
 
-export default function ListHabits({habits, setHabits}){
+export default function ListHabits({ habits, setHabits }) {
     const organize = habits.sort((a, b) => b.id - a.id)
 
 
-    return(
+    return (
         <Container>
-            {organize.map((item, index) => <HabitCard key={index} 
-            days={item.days} 
-            id={item.id}
-            habits={habits}
-            setHabits={setHabits}>{item.name}</HabitCard>)}
+            {organize.map((item, index) => <HabitCard key={index}
+                days={item.days}
+                id={item.id}
+                habits={habits}
+                setHabits={setHabits}>{item.name}</HabitCard>)}
         </Container>
     )
-    
+
 }
 
 const Container = styled.div`
@@ -70,13 +70,14 @@ const Container = styled.div`
     width: 100%;
 
     p{
+        width: 90%;
         font-weight: 400;
         font-size: 18px;
         line-height: 22px;
         color: #666666;
     }
     div:last-child{
-        margin-bottom: 140px;
+        margin-bottom: 120px;
     }
 
 `

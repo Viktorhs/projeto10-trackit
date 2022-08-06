@@ -5,38 +5,37 @@ import { getListHabits } from "../../services/trackit";
 import CreateHabit from "./CreateHabit";
 import ListHabits from "./ListHabits";
 
-export default function Habits(){
-    const {att} = useContext(UserContext)
+export default function Habits() {
+    const { att } = useContext(UserContext)
     const [create, setCreate] = useState(false)
-    const [habits,setHabits] = useState([])
+    const [habits, setHabits] = useState([])
     const [text, setText] = useState()
 
 
-    useEffect(() =>{
+    useEffect(() => {
         const promisse = getListHabits()
         promisse.catch(() => {
             alert('Erro de cominucação com o servidor')
         })
         promisse.then((r) => {
             setHabits(r.data)
-            console.log(r.data)
             setText('Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!')
         })
     }, [att])
 
-    return(
+    return (
         <Container>
             <Wrapper>
                 <h4>Meus hábitos</h4>
                 <div onClick={() => setCreate(true)}>+</div>
             </Wrapper>
-            {create ? <CreateHabit 
-            setCreate={setCreate}/> : <></>}
-            {habits.length < 1 ? 
-            <p>{text}</p> 
-            : 
-            <ListHabits habits={habits} setHabits={setHabits}/>}
-            
+            {create ? <CreateHabit
+                setCreate={setCreate} /> : <></>}
+            {habits.length < 1 ?
+                <p>{text}</p>
+                :
+                <ListHabits habits={habits} setHabits={setHabits} />}
+
         </Container>
     )
 
@@ -60,7 +59,7 @@ const Container = styled.div`
 const Wrapper = styled.span`
     &&{
         margin-bottom: 28px;
-        padding-top: 17px;
+        padding-top: 28px;
         display: flex;
         justify-content: space-between;
         align-items: center;

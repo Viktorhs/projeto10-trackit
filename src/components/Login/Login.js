@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { postLogin } from '../../services/trackit';
 import logo from '../../assets/images/logo.svg'
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ import UserContext from '../../contexts/UserContext';
 
 export default function Login() {
     const navigate = useNavigate()
-    const {setUser} = useContext(UserContext)
+    const { setUser } = useContext(UserContext)
 
     const [waiting, setWaiting] = useState(false)
 
@@ -35,26 +35,47 @@ export default function Login() {
         )
         promise.then((r) => {
             localStorage.removeItem("trakit")
-            let trakitInf = JSON.stringify(r.data)
-            setUser(r.data)
+            const dados = {
+                id: r.data.id,
+                name: r.data.name,
+                image: r.data.image,
+                token: r.data.token
+            }
+            let trakitInf = JSON.stringify(dados)
+            setUser(dados)
             localStorage.setItem("trakit", trakitInf)
             navigate('/hoje')
         })
 
     }
-        return (
-            <Container>
-                <img src={logo} alt='logo' />
-                <Form onSubmit={login} active={waiting}>
-                    <input type='email' name='email' placeholder="email" onChange={handleForm} value={form.description} required  disabled={waiting}/>
-                    <input type="password" name="password" placeholder="senha" onChange={handleForm} value={form.description} required  disabled={waiting}/>
-                    <Button type="submit" active={waiting} disabled={waiting}>
-                        {waiting ? <ThreeDots color="#FFFFFF" height={13} width={51} /> : 'Entrar'}
-                    </Button>
-                </Form>
-                <StyledLink to='/cadastro'>Não tem uma conta? Cadastre-se!</StyledLink>
-            </Container>
-        )
+    const auth = JSON.parse(localStorage.getItem("trakit"))
+
+
+    function compara(auth) {
+        if (auth !== null) {
+            navigate('/hoje')
+        }
+    }
+
+    useEffect(() => {
+        setUser(auth)
+        compara(auth)
+    }, [])
+
+
+    return (
+        <Container>
+            <img src={logo} alt='logo' />
+            <Form onSubmit={login} active={waiting}>
+                <input type='email' name='email' placeholder="email" onChange={handleForm} value={form.description} required disabled={waiting} />
+                <input type="password" name="password" placeholder="senha" onChange={handleForm} value={form.description} required disabled={waiting} />
+                <Button type="submit" active={waiting} disabled={waiting}>
+                    {waiting ? <ThreeDots color="#FFFFFF" height={13} width={51} /> : 'Entrar'}
+                </Button>
+            </Form>
+            <StyledLink to='/cadastro'>Não tem uma conta? Cadastre-se!</StyledLink>
+        </Container>
+    )
 
 }
 
