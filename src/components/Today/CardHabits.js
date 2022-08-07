@@ -23,7 +23,7 @@ export default function CardHabits({ currentSequence, highestSequence, id, child
         if (isCheck) {
             const promisse = postUnCheckHabit(id)
             promisse.catch(() => {
-                alert('Não e possivel marcar habitos do dia anterior')
+                alert('Falha em marcar o habito')
                 setClicked(false)
             })
             promisse.then(() => {
@@ -35,7 +35,7 @@ export default function CardHabits({ currentSequence, highestSequence, id, child
         if (!isCheck) {
             const promisse = postCheckHabit(id)
             promisse.catch(() => {
-                alert('Não e possivel desmarcar habitos do dia anterior')
+                alert('Falha desmarcar o habito')
                 setClicked(false)
             })
             promisse.then(() => {
